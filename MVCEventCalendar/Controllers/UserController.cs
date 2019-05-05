@@ -29,7 +29,7 @@ namespace MVCEventCalendar.Controllers
 
         public JsonResult GetEvents()
         {
-           
+
 
             var events = (from e in dc.Events
                           join c in dc.ClassRooms
@@ -44,10 +44,12 @@ namespace MVCEventCalendar.Controllers
                               e.ThemeColor,
                               e.IsfullDay,
                               e.ClassRoomId,
-                              e.Employeeid,
-                              c.ClassRoomName
-                              
+                              c.ClassRoomName,
+                              e.Employeeid
+
                           }).ToList();
+
+
 
 
             //var events = dc.Events.ToList();

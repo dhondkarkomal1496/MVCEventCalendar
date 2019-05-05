@@ -3,7 +3,81 @@
 @{
     ViewBag.Title = "Index";
 }
+<style>
 
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+        background-color: #000
+    }
+
+        .modal-backdrop.fade {
+            opacity: 0;
+            filter: alpha(opacity=0)
+        }
+
+        .modal-backdrop.in {
+            opacity: .5;
+            filter: alpha(opacity=50)
+        }
+
+    .modal-header {
+        min-height: 16.428571429px;
+        padding: 15px;
+        border-bottom: 1px solid #e5e5e5
+    }
+
+        .modal-header .close {
+            margin-top: -2px
+        }
+
+    .modal-title {
+        margin: 0;
+        line-height: 1.428571429
+    }
+
+    .modal-body {
+        position: relative;
+        padding: 20px
+    }
+
+    .modal-footer {
+        padding: 19px 20px 20px;
+        margin-top: 15px;
+        text-align: right;
+        border-top: 1px solid #e5e5e5
+    }
+
+        .modal-footer:before, .modal-footer:after {
+            display: table;
+            content: " "
+        }
+
+        .modal-footer:after {
+            clear: both
+        }
+
+        .modal-footer:before, .modal-footer:after {
+            display: table;
+            content: " "
+        }
+
+        .modal-footer:after {
+            clear: both
+        }
+
+        .modal-footer .btn + .btn {
+            margin-bottom: 0;
+            margin-left: 5px
+        }
+        .modal-footer .btn-group .btn + .btn {
+            margin-left: -1px
+        }
+</style>
 
 <div id="calender"></div>
 
@@ -30,8 +104,10 @@
     </div>
 </div>
 
+
+
 <div id="myModalSave" class="modal fade" role="dialog">
-    <div class="modal-dialog" style="background-color:white">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -89,9 +165,79 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </form>
             </div>
+            <div class="modal-footer">
+              
+            </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+@*<div id="myModalSave" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="background-color:white">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Save Event</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="col-md-12 form-horizontal">
+                        <input type="hidden" id="hdEventID" value="0" />
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="txtSubject" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Class Room</label>
+                            @Html.DropDownList("data1", null, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label>Start</label>
+                            <div class="input-group date" id="dtp1">
+                                <input type="text" id="txtStart" class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="chkIsFullDay" checked="checked" />  Is Full Day event</label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="divEndDate" style="display:none">
+                            <label>End</label>
+                            <div class="input-group date" id="dtp2">
+                                <input type="text" id="txtEnd" class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="txtDescription" rows="3" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Theme Color</label>
+                            <select id="ddThemeColor" class="form-control">
+                                <option value="">Default</option>
+                                <option value="red">Red</option>
+                                <option value="blue">Blue</option>
+                                <option value="black">Black</option>
+                                <option value="green">Green</option>
+                            </select>
+                        </div>
+                        <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
 <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
@@ -101,7 +247,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script>
-        
+
         $(document).ready(function () {
             var xyz;
             var events = [];
@@ -154,9 +300,9 @@
                     events: events,
                     eventClick: function (calEvent, jsEvent, view) {
                         selectedEvent = calEvent;
-                        
+
                         $('#myModal #eventTitle').text(calEvent.title);
-                       
+
                         var $description = $('<div/>');
                         $description.append($('<p/>').html('<b>Employee Number:</b>' + calEvent.Employeeid))
                         xyz = calEvent.Employeeid;
@@ -193,9 +339,13 @@
 
                     },
                     editable: true,
-                    
+
                     eventDrop: function (event) {
-                        var employee= @Session["EmployeeNumber"];
+                        alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+
+                        if (!confirm("Are you sure about this change?")) {
+                            info.revert();
+                        } else {
                         var data = {
                             EventID: event.eventID,
                             Subject: event.title,
@@ -204,14 +354,16 @@
                             Description: event.description,
                             ThemeColor: event.color,
                             IsFullDay: event.allDay,
+                            ClassRoomId: event.ClassRoomId,
                             Employeeid: event.Employeeid
-                        };
-                        SaveEvent(data);
+                          };
+                            SaveEvent(data);
+                        }
                     }
                 })
             }
-           
-          
+
+
             $('#btnEdit').click(function () {
                 if (@Session["EmployeeNumber"]== xyz) {
                     //Open modal dialog for edit event
@@ -239,12 +391,12 @@
                             }
                         })
                     }
-                
+
                 } else {
                     alert('You are not authorized to delete  others bookings');
                 }
                 })
-            
+
             $('#dtp1,#dtp2').datetimepicker({
                 format: 'DD/MM/YYYY HH:mm A'
             });
@@ -276,8 +428,11 @@
             var emp = @Session["EmployeeNumber"];
             $('#btnSave').click(function () {
                 //Validation/
-
-
+                var CurrentDate = new Date();
+                if (moment($('#txtStart').val()).toDate() < CurrentDate) {
+                    alert('you cannot select previous date');
+                    return;
+                }
                 if ($('#txtSubject').val().trim() == "") {
                     alert('Subject required');
                     return;
@@ -305,7 +460,7 @@
 
                     }
                 }
-                
+
                 var data = {
                     EventID: $('#hdEventID').val(),
                     Subject: $('#txtSubject').val().trim(),
@@ -316,7 +471,7 @@
                     IsFullDay: $('#chkIsFullDay').is(':checked'),
                     ClassRoomId: $('#data1').val(),
                     Employeeid: emp
-                    
+
 
 
                 }
