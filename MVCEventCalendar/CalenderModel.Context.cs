@@ -43,5 +43,10 @@ namespace MVCEventCalendar
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFeedback_Result>("GetFeedback");
         }
+    
+        public virtual ObjectResult<getAllRooms_Result> getAllRooms()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getAllRooms_Result>("getAllRooms");
+        }
     }
 }

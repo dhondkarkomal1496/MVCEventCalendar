@@ -213,6 +213,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="getAllRooms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetFeedback" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ClassroomAllocationSystemModelStoreContainer">
           <EntitySet Name="AdminDetails" EntityType="Self.AdminDetails" Schema="dbo" store:Type="Tables" />
@@ -468,6 +469,7 @@
             <End Role="ClassRoom" EntitySet="ClassRooms" />
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
+          <FunctionImport Name="getAllRooms" ReturnType="Collection(ClassroomAllocationSystemModel.getAllRooms_Result)" />
         </EntityContainer>
         <ComplexType Name="GetFeedback_Result">
           <Property Type="Int32" Name="EmployeeNumber" Nullable="false" />
@@ -537,6 +539,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="getAllRooms_Result">
+          <Property Type="Int32" Name="ClassroomId" Nullable="false" />
+          <Property Type="String" Name="ClassRoomName" Nullable="false" MaxLength="20" />
+          <Property Type="Binary" Name="ClassroomImage" Nullable="true" />
+          <Property Type="Int32" Name="SeatingCapacity" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -670,6 +678,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getAllRooms" FunctionName="ClassroomAllocationSystemModel.Store.getAllRooms">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ClassroomAllocationSystemModel.getAllRooms_Result">
+                <ScalarProperty Name="ClassroomId" ColumnName="ClassroomId" />
+                <ScalarProperty Name="ClassRoomName" ColumnName="ClassRoomName" />
+                <ScalarProperty Name="ClassroomImage" ColumnName="ClassroomImage" />
+                <ScalarProperty Name="SeatingCapacity" ColumnName="SeatingCapacity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

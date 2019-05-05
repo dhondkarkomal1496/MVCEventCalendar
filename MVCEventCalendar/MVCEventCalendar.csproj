@@ -246,6 +246,9 @@
     <Compile Include="Feedback.cs">
       <DependentUpon>CalenderModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="getAllRooms_Result.cs">
+      <DependentUpon>CalenderModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetFeedback_Result.cs">
       <DependentUpon>CalenderModel.tt</DependentUpon>
     </Compile>
@@ -306,6 +309,7 @@
     <Content Include="Views\Home\ForgotPass.cshtml" />
     <Content Include="Views\Home\GetPassword.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\User\AllRooms.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

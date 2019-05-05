@@ -110,7 +110,14 @@ namespace MVCEventCalendar.Controllers
                     status = true;
                 }
             }
-            return new JsonResult { Data = new { status = status } };
+            return new JsonResult { Data = new { status = status }};
+        }
+
+        public ActionResult AllRooms()
+        {
+            ViewBag.AllQuestions = new SelectList(dc.Questions.ToList(), "Question1", "Question1");
+            var allRooms = dc.getAllRooms().ToList();
+            return View(allRooms); 
         }
     }
 }

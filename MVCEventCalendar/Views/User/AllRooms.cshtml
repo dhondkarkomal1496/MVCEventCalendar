@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MVCEventCalendar.getAllRooms_Result>
+
+@{
+    ViewBag.Title = "AllRooms";
+}
+<div style="text-align:center;">
+    <h1>Classroom Details</h1>
+</div>
+<div class="col-md-12" style="background-color:white;">
+    <table class="table table-bordered " style="padding:40%;margin-bottom:30px">
+        <tr style="background-color:lightgrey;height:50px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:20px; ">
+            <th>
+                @Html.DisplayName("Classroom Id")
+            </th>
+            <th>
+                @Html.DisplayName("Classroom Name")
+            </th>
+            <th>
+                @Html.DisplayName("Seating Capacity")
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr style="background-color:white;height:50px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:20px;">
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassroomId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassRoomName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeatingCapacity)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
