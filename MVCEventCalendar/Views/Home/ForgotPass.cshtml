@@ -18,7 +18,7 @@
         @Html.Label("EmployeeId", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-2">
             @*  @Html.TextBox("EmployeeId", "", new { htmlAttributes = new { id = "EmployeeId", @class = "form-control" } })*@
-            <input type="number" name="EmployeeId" id="EmployeeId" class="form-control" />
+            <input type="number" name="EmployeeId" id="EmployeeId" required min="100000" max="150000" class="form-control" />
             <span id="employeeId_error" class="text-danger"></span>          
         </div>
     </div>
@@ -40,7 +40,7 @@ else
             </div>
             <div class="col-md-3">
                 @*<h4><b> Answer :</b> @Html.TextBox("Answer", "", new { id = "answer" }) </h4>*@
-                <h4 > <input type="text" name="Answer" id="answer" class="form-control" placeholder="Your Answer" /></h4>
+                <h4 > <input type="text" name="Answer" id="answer" class="form-control" placeholder="Your Answer" required max="100" /></h4>
                 <span id="answer_error" class="text-danger"></span>
             </div>
             <div>

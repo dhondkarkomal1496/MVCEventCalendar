@@ -128,8 +128,8 @@ namespace MVCEventCalendar.Controllers
         public ActionResult AllRooms()
         {
             ViewBag.AllQuestions = new SelectList(dc.Questions.ToList(), "Question1", "Question1");
-            var allRooms = dc.getAllRooms().ToList();
-            return View(allRooms); 
+            
+            return View(dc.ClassRooms.ToList()); 
         }
     }
 }

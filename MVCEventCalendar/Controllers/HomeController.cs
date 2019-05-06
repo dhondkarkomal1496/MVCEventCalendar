@@ -121,15 +121,22 @@ namespace MVCEventCalendar.Controllers
             }
             else
             {
-                int empid = Convert.ToInt32(formCollection["EmployeeId"]);
+                try
+                {
+                    int empid = Convert.ToInt32(formCollection["EmployeeId"]);
+                    int questionId = entities.UserQuestionDetails.Where(s => s.EmpoyeeNumber == empid).First().QuestionId;
+                    Session["forgotPassEmployeeId"] = empid;
+                    TempData["EmployeeId"] = empid;
+                    TempData["question"] = (from res in entities.Questions
+                                            where res.QuestionId == questionId
+                                            select res.Question1).FirstOrDefault();
+                    return RedirectToAction("ForgotPass");
+                }
+                catch (Exception)
+                {
 
-                int questionId = entities.UserQuestionDetails.Where(s => s.EmpoyeeNumber == empid).First().QuestionId;
-                Session["forgotPassEmployeeId"] = empid;
-                TempData["EmployeeId"] = empid;
-                TempData["question"] = (from res in entities.Questions
-                                        where res.QuestionId == questionId
-                                        select res.Question1).FirstOrDefault();
-                return RedirectToAction("ForgotPass");
+                    return Content("<script language='javascript' type='text/javascript'>alert('This EmployeeId is not registered yet');window.location = 'ForgotPass';</script>");
+                }
             }
         }
 
@@ -148,7 +155,8 @@ namespace MVCEventCalendar.Controllers
             }
             else
             {
-                return RedirectToAction("ForgotPass");
+                //return RedirectToAction("ForgotPass");
+                return Content("<script language='javascript' type='text/javascript'>alert('Wrong Answer');window.location = 'ForgotPass';</script>");
             }
         }
 
