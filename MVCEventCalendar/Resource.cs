@@ -22,7 +22,6 @@ namespace MVCEventCalendar
     
         public int ResourceId { get; set; }
         public string ResourceName { get; set; }
-        public string IsSelected { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassRoomDetail> ClassRoomDetails { get; set; }

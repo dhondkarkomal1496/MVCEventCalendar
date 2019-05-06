@@ -18,5 +18,12 @@ namespace MVCEventCalendar.Controllers
             ViewBag.AllQuestions = new SelectList(entities.Questions.ToList(), "Question1", "Question1");
             return View();
         }
+
+        public ActionResult ShowReportToAdmin()
+        {
+            ViewBag.AllQuestions = new SelectList(entities.Questions.ToList(), "Question1", "Question1");
+
+            return View();
+        }
     }
 }

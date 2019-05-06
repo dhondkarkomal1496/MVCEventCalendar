@@ -44,9 +44,26 @@ namespace MVCEventCalendar
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFeedback_Result>("GetFeedback");
         }
     
-        public virtual ObjectResult<getAllRooms_Result> getAllRooms()
+        public virtual ObjectResult<getAllRooms_Result1> getAllRooms()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getAllRooms_Result>("getAllRooms");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getAllRooms_Result1>("getAllRooms");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> ValidateBookingClassroom(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, Nullable<int> classroomId)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var classroomIdParameter = classroomId.HasValue ?
+                new ObjectParameter("ClassroomId", classroomId) :
+                new ObjectParameter("ClassroomId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ValidateBookingClassroom", startDateParameter, endDateParameter, classroomIdParameter);
         }
     }
 }

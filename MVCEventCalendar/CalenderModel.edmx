@@ -86,7 +86,6 @@
           </Key>
           <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResourceName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="IsSelected" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -215,6 +214,11 @@
         </Association>
         <Function Name="getAllRooms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetFeedback" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ValidateBookingClassroom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="ClassroomId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="ClassroomAllocationSystemModelStoreContainer">
           <EntitySet Name="AdminDetails" EntityType="Self.AdminDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookRooms" EntityType="Self.BookRooms" Schema="dbo" store:Type="Tables" />
@@ -327,7 +331,6 @@
           </Key>
           <Property Name="ResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IsSelected" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ClassRoomDetails" Relationship="ClassroomAllocationSystemModel.FK_ClassRoomDetails_Resource" FromRole="Resource" ToRole="ClassRoomDetail" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -469,7 +472,12 @@
             <End Role="ClassRoom" EntitySet="ClassRooms" />
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
-          <FunctionImport Name="getAllRooms" ReturnType="Collection(ClassroomAllocationSystemModel.getAllRooms_Result)" />
+          <FunctionImport Name="getAllRooms" ReturnType="Collection(ClassroomAllocationSystemModel.getAllRooms_Result1)" />
+          <FunctionImport Name="ValidateBookingClassroom" ReturnType="Collection(Int32)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ClassroomId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetFeedback_Result">
           <Property Type="Int32" Name="EmployeeNumber" Nullable="false" />
@@ -545,6 +553,22 @@
           <Property Type="Binary" Name="ClassroomImage" Nullable="true" />
           <Property Type="Int32" Name="SeatingCapacity" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="getAllRooms1_Result">
+          <Property Type="Int32" Name="ClassRoomId" Nullable="false" />
+          <Property Type="String" Name="ClassRoomName" Nullable="false" MaxLength="20" />
+          <Property Type="Binary" Name="ClassroomImage" Nullable="true" />
+          <Property Type="Int32" Name="SeatingCapacity" Nullable="true" />
+          <Property Type="String" Name="BuildingName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="LevelNo" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getAllRooms_Result1">
+          <Property Type="Int32" Name="ClassRoomId" Nullable="false" />
+          <Property Type="String" Name="ClassRoomName" Nullable="false" MaxLength="20" />
+          <Property Type="Binary" Name="ClassroomImage" Nullable="true" />
+          <Property Type="Int32" Name="SeatingCapacity" Nullable="true" />
+          <Property Type="String" Name="BuildingName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="LevelNo" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -609,7 +633,6 @@
               <MappingFragment StoreEntitySet="Resources">
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="ResourceName" ColumnName="ResourceName" />
-                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -680,14 +703,17 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="getAllRooms" FunctionName="ClassroomAllocationSystemModel.Store.getAllRooms">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ClassroomAllocationSystemModel.getAllRooms_Result">
-                <ScalarProperty Name="ClassroomId" ColumnName="ClassroomId" />
+              <ComplexTypeMapping TypeName="ClassroomAllocationSystemModel.getAllRooms_Result1">
+                <ScalarProperty Name="ClassRoomId" ColumnName="ClassRoomId" />
                 <ScalarProperty Name="ClassRoomName" ColumnName="ClassRoomName" />
                 <ScalarProperty Name="ClassroomImage" ColumnName="ClassroomImage" />
                 <ScalarProperty Name="SeatingCapacity" ColumnName="SeatingCapacity" />
+                <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+                <ScalarProperty Name="LevelNo" ColumnName="LevelNo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ValidateBookingClassroom" FunctionName="ClassroomAllocationSystemModel.Store.ValidateBookingClassroom" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

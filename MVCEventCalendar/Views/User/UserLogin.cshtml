@@ -111,7 +111,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Save Event</h4>
+                <h4 class="modal-title">Book Classroom</h4>
             </div>
             <div class="modal-body">
                 <form class="col-md-12 form-horizontal">
@@ -250,6 +250,9 @@
 
         $(document).ready(function () {
             var xyz;
+            var dateStart;
+            var dateEnd;
+            var classRoomName1;
             var events = [];
             var selectedEvent = null;
             FetchEventAndRenderCalendar();
@@ -273,8 +276,9 @@
                                 Employeeid: v.Employeeid
                             });
                         })
-
+                       
                         GenerateCalender(events);
+                        checkOverlap(events);
                     },
                     error: function (error) {
                         alert('failed');
@@ -298,6 +302,7 @@
                     eventLimit: true,
                     eventColor: '#378006',
                     events: events,
+
                     eventClick: function (calEvent, jsEvent, view) {
                         selectedEvent = calEvent;
 
@@ -316,51 +321,59 @@
 
                         $('#myModal').modal();
                     },
+                    
+                    
+                    
                     selectable: true,
                     select: function (start, end) {
-
                         selectedEvent = {
                             eventID: 0,
                             title: '',
                             description: '',
-
                             start: start,
-
                             end: end,
                             allDay: false,
                             color: ''
-
+                            
                         };
-
-
+                        
                         openAddEditForm();
-                        $('#calendar').fullCalendar('unselect');
+                        
+                       $('#calender').fullCalendar('unselect');
+                        
+                     
 
 
                     },
-                    editable: true,
-
+                   
+                   
+                    editable: false,
                     eventDrop: function (event) {
-                        alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+                        checkOverlap(selectedEvent);
 
-                        if (!confirm("Are you sure about this change?")) {
-                            info.revert();
-                        } else {
-                        var data = {
-                            EventID: event.eventID,
-                            Subject: event.title,
-                            Start: event.start.format('DD/MM/YYYY HH:mm A'),
-                            End: event.end != null ? event.end.format('DD/MM/YYYY HH:mm A') : null,
-                            Description: event.description,
-                            ThemeColor: event.color,
-                            IsFullDay: event.allDay,
-                            ClassRoomId: event.ClassRoomId,
-                            Employeeid: event.Employeeid
-                          };
-                            SaveEvent(data);
-                        }
                     }
-                })
+
+                },
+                    
+                    function checkOverlap(event) {
+
+                    var start = new Date(event.start);
+                    var end = new Date(event.end);
+
+                    var overlap = $('#calender').fullCalendar('clientEvents', function (ev) {
+                        if (ev == event)
+                            return false;
+                        var estart = new Date(ev.start);
+                        var eend = new Date(ev.end);
+
+                        return (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
+                    });
+
+                    if (overlap.length) {
+                        //either move this event to available timeslot or remove it
+                    }
+                });
+               
             }
 
 
@@ -459,7 +472,7 @@
                         return;
 
                     }
-                }
+                } 
 
                 var data = {
                     EventID: $('#hdEventID').val(),
@@ -475,6 +488,7 @@
 
 
                 }
+               
                 SaveEvent(data);
                 // call function for submit data to the server
             })
