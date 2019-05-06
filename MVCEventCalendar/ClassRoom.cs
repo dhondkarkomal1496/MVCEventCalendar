@@ -28,6 +28,7 @@ namespace MVCEventCalendar
         public Nullable<int> SeatingCapacity { get; set; }
         public string BuildingName { get; set; }
         public Nullable<int> LevelNo { get; set; }
+        public string Theamcolor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookRoom> BookRooms { get; set; }

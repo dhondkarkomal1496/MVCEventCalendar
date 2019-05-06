@@ -3,81 +3,6 @@
 @{
     ViewBag.Title = "Index";
 }
-<style>
-
-    .modal-backdrop {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1030;
-        background-color: #000
-    }
-
-        .modal-backdrop.fade {
-            opacity: 0;
-            filter: alpha(opacity=0)
-        }
-
-        .modal-backdrop.in {
-            opacity: .5;
-            filter: alpha(opacity=50)
-        }
-
-    .modal-header {
-        min-height: 16.428571429px;
-        padding: 15px;
-        border-bottom: 1px solid #e5e5e5
-    }
-
-        .modal-header .close {
-            margin-top: -2px
-        }
-
-    .modal-title {
-        margin: 0;
-        line-height: 1.428571429
-    }
-
-    .modal-body {
-        position: relative;
-        padding: 20px
-    }
-
-    .modal-footer {
-        padding: 19px 20px 20px;
-        margin-top: 15px;
-        text-align: right;
-        border-top: 1px solid #e5e5e5
-    }
-
-        .modal-footer:before, .modal-footer:after {
-            display: table;
-            content: " "
-        }
-
-        .modal-footer:after {
-            clear: both
-        }
-
-        .modal-footer:before, .modal-footer:after {
-            display: table;
-            content: " "
-        }
-
-        .modal-footer:after {
-            clear: both
-        }
-
-        .modal-footer .btn + .btn {
-            margin-bottom: 0;
-            margin-left: 5px
-        }
-        .modal-footer .btn-group .btn + .btn {
-            margin-left: -1px
-        }
-</style>
 
 <div id="calender"></div>
 
@@ -176,68 +101,6 @@
 
 
 
-@*<div id="myModalSave" class="modal fade" role="dialog">
-        <div class="modal-dialog" style="background-color:white">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Save Event</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="col-md-12 form-horizontal">
-                        <input type="hidden" id="hdEventID" value="0" />
-                        <div class="form-group">
-                            <label>Subject</label>
-                            <input type="text" id="txtSubject" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Class Room</label>
-                            @Html.DropDownList("data1", null, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label>Start</label>
-                            <div class="input-group date" id="dtp1">
-                                <input type="text" id="txtStart" class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="chkIsFullDay" checked="checked" />  Is Full Day event</label>
-                            </div>
-                        </div>
-                        <div class="form-group" id="divEndDate" style="display:none">
-                            <label>End</label>
-                            <div class="input-group date" id="dtp2">
-                                <input type="text" id="txtEnd" class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="txtDescription" rows="3" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Theme Color</label>
-                            <select id="ddThemeColor" class="form-control">
-                                <option value="">Default</option>
-                                <option value="red">Red</option>
-                                <option value="blue">Blue</option>
-                                <option value="black">Black</option>
-                                <option value="green">Green</option>
-                            </select>
-                        </div>
-                        <button type="button" id="btnSave" class="btn btn-success">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>*@
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
 <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
@@ -250,9 +113,7 @@
 
         $(document).ready(function () {
             var xyz;
-            var dateStart;
-            var dateEnd;
-            var classRoomName1;
+          
             var events = [];
             var selectedEvent = null;
             FetchEventAndRenderCalendar();
@@ -269,7 +130,7 @@
                                 description: v.Description,
                                 start: moment(v.Start),
                                 end: v.End != null ? moment(v.End) : null,
-                                color: v.ThemeColor,
+                                color: v.Theamcolor,
                                 allDay: v.IsFullDay,
                                 ClassRoomId: v.ClassRoomId,
                                 ClassRoomName: v.ClassRoomName,
@@ -278,7 +139,7 @@
                         })
                        
                         GenerateCalender(events);
-                        checkOverlap(events);
+                       
                     },
                     error: function (error) {
                         alert('failed');
@@ -349,30 +210,13 @@
                    
                     editable: false,
                     eventDrop: function (event) {
-                        checkOverlap(selectedEvent);
+                      
 
                     }
 
                 },
                     
-                    function checkOverlap(event) {
-
-                    var start = new Date(event.start);
-                    var end = new Date(event.end);
-
-                    var overlap = $('#calender').fullCalendar('clientEvents', function (ev) {
-                        if (ev == event)
-                            return false;
-                        var estart = new Date(ev.start);
-                        var eend = new Date(ev.end);
-
-                        return (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
-                    });
-
-                    if (overlap.length) {
-                        //either move this event to available timeslot or remove it
-                    }
-                });
+                   );
                
             }
 
@@ -480,7 +324,7 @@
                     Start: $('#txtStart').val().trim(),
                     End: $('#chkIsFullDay').is(':checked') ? null : $('#txtEnd').val().trim(),
                     Description: $('#txtDescription').val(),
-                    ThemeColor: $('#ddThemeColor').val(),
+                    Theamcolor: $('#ddThemeColor').val(),
                     IsFullDay: $('#chkIsFullDay').is(':checked'),
                     ClassRoomId: $('#data1').val(),
                     Employeeid: emp
@@ -490,6 +334,8 @@
                 }
                
                 SaveEvent(data);
+               
+              //  alert('Class room booked successfully');
                 // call function for submit data to the server
             })
 
@@ -500,9 +346,12 @@
                     data: data,
                     success: function (data) {
                         if (data.status) {
-                            //Refresh the calender
+                            alert('Classroom booked successfully!');
                             FetchEventAndRenderCalendar();
                             $('#myModalSave').modal('hide');
+
+                        } else {
+                            alert('This Classroom is already booked for this timeslot');
                         }
                     },
                     error: function () {

@@ -41,7 +41,7 @@ namespace MVCEventCalendar.Controllers
                               e.Description,
                               e.Start,
                               e.End,
-                              e.ThemeColor,
+                              c.Theamcolor,
                               e.IsfullDay,
                               e.ClassRoomId,
                               c.ClassRoomName,
@@ -59,12 +59,12 @@ namespace MVCEventCalendar.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEvent(Event e)
+        public ActionResult SaveEvent(Event e)
         {
             var status = false;
             using (ClassroomAllocationSystemEntities dc = new ClassroomAllocationSystemEntities())
             {
-
+               
                 if (e.EventID > 0)
                 {
                     //Update the event
@@ -84,11 +84,23 @@ namespace MVCEventCalendar.Controllers
                 }
                 else
                 {
+                    var count = dc.ValidateBookingClassroom(e.Start, e.End, e.ClassRoomId).ToList();
+                    int? save = count.FirstOrDefault();
+                    Int32 insert = save.HasValue ? save.Value : 0;
+                    if (insert == 0) { 
                     dc.Events.Add(e);
+                        dc.SaveChanges();
+
+                        status = true;
+                        
+                    }
+                    else
+                    {
+                        status = false;
+                    }
                 }
 
-                dc.SaveChanges();
-                status = true;
+               
 
             }
             return new JsonResult { Data = new { status = status } };

@@ -49,6 +49,7 @@
           <Property Name="SeatingCapacity" Type="int" />
           <Property Name="BuildingName" Type="varchar" MaxLength="50" />
           <Property Name="LevelNo" Type="int" />
+          <Property Name="Theamcolor" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Events">
           <Key>
@@ -306,6 +307,7 @@
           <Property Name="LevelNo" Type="Int32" />
           <NavigationProperty Name="ClassRoomDetails" Relationship="ClassroomAllocationSystemModel.FK_ClassRoomDetails_ClassRooms" FromRole="ClassRoom" ToRole="ClassRoomDetail" />
           <NavigationProperty Name="Events" Relationship="ClassroomAllocationSystemModel.FK_Events_ClassRooms" FromRole="ClassRoom" ToRole="Event" />
+          <Property Name="Theamcolor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -601,6 +603,7 @@
           <EntitySetMapping Name="ClassRooms">
             <EntityTypeMapping TypeName="ClassroomAllocationSystemModel.ClassRoom">
               <MappingFragment StoreEntitySet="ClassRooms">
+                <ScalarProperty Name="Theamcolor" ColumnName="Theamcolor" />
                 <ScalarProperty Name="LevelNo" ColumnName="LevelNo" />
                 <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
                 <ScalarProperty Name="SeatingCapacity" ColumnName="SeatingCapacity" />
