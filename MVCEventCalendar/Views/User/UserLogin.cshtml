@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<div id="calender"></div>
+<div id="calender" style="height:120%;width:90%;margin-left:5%"></div>
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -42,7 +42,7 @@
                 <form class="col-md-12 form-horizontal">
                     <input type="hidden" id="hdEventID" value="0" />
                     <div class="form-group">
-                        <label>Subject</label>
+                        <label>Reason</label>
                         <input type="text" id="txtSubject" class="form-control" />
                     </div>
                     <div class="form-group">
@@ -76,16 +76,7 @@
                         <label>Description</label>
                         <textarea id="txtDescription" rows="3" class="form-control"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Theme Color</label>
-                        <select id="ddThemeColor" class="form-control">
-                            <option value="">Default</option>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="black">Black</option>
-                            <option value="green">Green</option>
-                        </select>
-                    </div>
+                  
                     <button type="button" id="btnSave" class="btn btn-success">Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </form>
@@ -130,7 +121,7 @@
                                 description: v.Description,
                                 start: moment(v.Start),
                                 end: v.End != null ? moment(v.End) : null,
-                                color: v.Theamcolor,
+                                color: v.Themecolor,
                                 allDay: v.IsFullDay,
                                 ClassRoomId: v.ClassRoomId,
                                 ClassRoomName: v.ClassRoomName,
@@ -269,27 +260,39 @@
             });
 
             function openAddEditForm() {
-                if (selectedEvent != null) {
-                    var selectedDate = selectedEvent.start;
-                    if (selectedDate < new Date()) {
-                        alert('You cannot select previous date and time');
-                    } else {
-
-                    $('#hdEventID').val(selectedEvent.eventID);
-                    $('#txtSubject').val(selectedEvent.title);
-                    $('#txtStart').val(selectedEvent.start.format('DD/MM/YYYY HH:mm A'));
-                    $('#chkIsFullDay').prop("checked", selectedEvent.allDay || false);
-                    $('#chkIsFullDay').change();
-                    $('#txtEnd').val(selectedEvent.end != null ? selectedEvent.end.format('DD/MM/YYYY HH:mm A') : '');
-                    $('#txtDescription').val(selectedEvent.description);
-                    $('#ddThemeColor').val(selectedEvent.color);
-                        $('#data1').index(selectedEvent.ClassRoomId);
-                        $('#myModal').modal('hide');
-                        $('#myModalSave').modal();
-                }
                
+                    if (selectedEvent != null) 
+                    {
+                        var selectedDate = selectedEvent.start.format('YYYY-MM-DD');
+
+                        var current = moment(new Date(), "DD/MM/YYYY").utcOffset(0, true).format('YYYY-MM-DD');
+
+                        if (selectedDate <= current)
+                        {
+                            alert('You cannot select previous date');
+
+                        }
+                        else
+                        {
+                            
+
+                            $('#hdEventID').val(selectedEvent.eventID);
+                            $('#txtSubject').val(selectedEvent.title);
+                            $('#txtStart').val(selectedEvent.start.format('DD/MM/YYYY HH:mm A'));
+                            $('#chkIsFullDay').prop("checked", selectedEvent.allDay || false);
+                            $('#chkIsFullDay').change();
+                            $('#txtEnd').val(selectedEvent.end != null ? selectedEvent.end.format('DD/MM/YYYY HH:mm A') : '');
+                            $('#txtDescription').val(selectedEvent.description);
+                            $('#ddThemeColor').val(selectedEvent.color);
+                            $('#data1').index(selectedEvent.ClassRoomId);
+                            var selectedDate = selectedEvent.start.format('DD/MM/YYYY');
+
+                            $('#myModal').modal('hide');
+                            $('#myModalSave').modal();
+                        }
+                    }
                  }
-            }
+            
             var emp = @Session["EmployeeNumber"];
             $('#btnSave').click(function () {
                 //Validation/
@@ -332,7 +335,7 @@
                     Start: $('#txtStart').val().trim(),
                     End: $('#chkIsFullDay').is(':checked') ? null : $('#txtEnd').val().trim(),
                     Description: $('#txtDescription').val(),
-                    Theamcolor: $('#ddThemeColor').val(),
+                    Themecolor: $('#ddThemeColor').val(),
                     IsFullDay: $('#chkIsFullDay').is(':checked'),
                     ClassRoomId: $('#data1').val(),
                     Employeeid: emp
@@ -354,7 +357,7 @@
                     data: data,
                     success: function (data) {
                         if (data.status) {
-                            alert('Classroom booked successfully!');
+                            //alert('Classroom booked successfully!');
                             FetchEventAndRenderCalendar();
                             $('#myModalSave').modal('hide');
 

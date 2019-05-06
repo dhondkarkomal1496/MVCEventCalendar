@@ -41,7 +41,7 @@ namespace MVCEventCalendar.Controllers
                               e.Description,
                               e.Start,
                               e.End,
-                              c.Theamcolor,
+                              e.ThemeColor,
                               e.IsfullDay,
                               e.ClassRoomId,
                               c.ClassRoomName,
@@ -79,6 +79,8 @@ namespace MVCEventCalendar.Controllers
                         v.ThemeColor = e.ThemeColor;
                         v.ClassRoomId = e.ClassRoomId;
                         v.Employeeid = e.Employeeid;
+                        dc.SaveChanges();
+                        status = true;
 
                     }
                 }
@@ -99,9 +101,6 @@ namespace MVCEventCalendar.Controllers
                         status = false;
                     }
                 }
-
-               
-
             }
             return new JsonResult { Data = new { status = status } };
         }
