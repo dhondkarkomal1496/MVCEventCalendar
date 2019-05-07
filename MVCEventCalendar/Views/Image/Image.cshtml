@@ -1,28 +1,28 @@
-﻿@model FinalClassroom.Models.ClassRoom
+﻿@model MVCEventCalendar.ClassRoom
     @{
-    ViewBag.Title = "Image";
+        Layout = null;
 }
-
-<h2>Image</h2>
-
+<center>
+    <h2>Add Classroom</h2>
+</center>
 @using (Html.BeginForm("Image", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ClassRoom</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.ClassRoomName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.Label("ClassRoom Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
                 @Html.EditorFor(model => model.ClassRoomName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ClassRoomName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ClassroomImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Classroom Image", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" name="file1" id="file1" style="width: 100%;" />
                

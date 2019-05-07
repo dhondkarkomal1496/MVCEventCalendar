@@ -49,7 +49,6 @@
           <Property Name="SeatingCapacity" Type="int" />
           <Property Name="BuildingName" Type="varchar" MaxLength="50" />
           <Property Name="LevelNo" Type="int" />
-          <Property Name="Theamcolor" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Events">
           <Key>
@@ -60,7 +59,6 @@
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="Start" Type="datetime" Nullable="false" />
           <Property Name="End" Type="datetime" Nullable="false" />
-          <Property Name="ThemeColor" Type="nvarchar" MaxLength="50" />
           <Property Name="IsfullDay" Type="bit" Nullable="false" />
           <Property Name="ClassRoomId" Type="int" />
           <Property Name="Employeeid" Type="int" />
@@ -214,7 +212,7 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="getAllRooms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetFeedback" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetFeedbacks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ValidateBookingClassroom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StartDate" Type="datetime" Mode="In" />
           <Parameter Name="EndDate" Type="datetime" Mode="In" />
@@ -307,7 +305,6 @@
           <Property Name="LevelNo" Type="Int32" />
           <NavigationProperty Name="ClassRoomDetails" Relationship="ClassroomAllocationSystemModel.FK_ClassRoomDetails_ClassRooms" FromRole="ClassRoom" ToRole="ClassRoomDetail" />
           <NavigationProperty Name="Events" Relationship="ClassroomAllocationSystemModel.FK_Events_ClassRooms" FromRole="ClassRoom" ToRole="Event" />
-          <Property Name="Theamcolor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -475,6 +472,8 @@
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
           <FunctionImport Name="getAllRooms" ReturnType="Collection(ClassroomAllocationSystemModel.getAllRooms_Result1)" />
+          <FunctionImport Name="GetFeedbacks" ReturnType="Collection(ClassroomAllocationSystemModel.GetFeedbacks_Result)" />
+          <FunctionImport Name="GetFeedbacks1" ReturnType="Collection(ClassroomAllocationSystemModel.GetFeedbacks1_Result)" />
           <FunctionImport Name="ValidateBookingClassroom" ReturnType="Collection(Int32)">
             <Parameter Name="StartDate" Mode="In" Type="DateTime" />
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
@@ -494,7 +493,6 @@
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="End" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ThemeColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsfullDay" Type="Boolean" Nullable="false" />
           <Property Name="ClassRoomId" Type="Int32" />
           <NavigationProperty Name="ClassRoom" Relationship="ClassroomAllocationSystemModel.FK_Events_ClassRooms" FromRole="Event" ToRole="ClassRoom" />
@@ -571,6 +569,16 @@
           <Property Type="String" Name="BuildingName" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="LevelNo" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="GetFeedbacks_Result">
+          <Property Type="Int32" Name="employeenumber" Nullable="false" />
+          <Property Type="String" Name="Feedback" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="feedbackdate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetFeedbacks1_Result">
+          <Property Type="Int32" Name="employeenumber" Nullable="false" />
+          <Property Type="String" Name="Feedback" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="feedbackdate" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -603,7 +611,6 @@
           <EntitySetMapping Name="ClassRooms">
             <EntityTypeMapping TypeName="ClassroomAllocationSystemModel.ClassRoom">
               <MappingFragment StoreEntitySet="ClassRooms">
-                <ScalarProperty Name="Theamcolor" ColumnName="Theamcolor" />
                 <ScalarProperty Name="LevelNo" ColumnName="LevelNo" />
                 <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
                 <ScalarProperty Name="SeatingCapacity" ColumnName="SeatingCapacity" />
@@ -671,21 +678,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetFeedback" FunctionName="ClassroomAllocationSystemModel.Store.GetFeedback">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ClassroomAllocationSystemModel.GetFeedback_Result">
-                <ScalarProperty Name="EmployeeNumber" ColumnName="EmployeeNumber" />
-                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="ClassroomAllocationSystemModel.Event">
               <MappingFragment StoreEntitySet="Events">
                 <ScalarProperty Name="Employeeid" ColumnName="Employeeid" />
                 <ScalarProperty Name="ClassRoomId" ColumnName="ClassRoomId" />
                 <ScalarProperty Name="IsfullDay" ColumnName="IsfullDay" />
-                <ScalarProperty Name="ThemeColor" ColumnName="ThemeColor" />
                 <ScalarProperty Name="End" ColumnName="End" />
                 <ScalarProperty Name="Start" ColumnName="Start" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -713,6 +711,15 @@
                 <ScalarProperty Name="SeatingCapacity" ColumnName="SeatingCapacity" />
                 <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
                 <ScalarProperty Name="LevelNo" ColumnName="LevelNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetFeedbacks1" FunctionName="ClassroomAllocationSystemModel.Store.GetFeedbacks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ClassroomAllocationSystemModel.GetFeedbacks1_Result">
+                <ScalarProperty Name="employeenumber" ColumnName="employeenumber" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="feedbackdate" ColumnName="feedbackdate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

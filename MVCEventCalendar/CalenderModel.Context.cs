@@ -49,6 +49,16 @@ namespace MVCEventCalendar
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getAllRooms_Result1>("getAllRooms");
         }
     
+        public virtual ObjectResult<GetFeedbacks_Result> GetFeedbacks()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFeedbacks_Result>("GetFeedbacks");
+        }
+    
+        public virtual ObjectResult<GetFeedbacks1_Result> GetFeedbacks1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFeedbacks1_Result>("GetFeedbacks1");
+        }
+    
         public virtual ObjectResult<Nullable<int>> ValidateBookingClassroom(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, Nullable<int> classroomId)
         {
             var startDateParameter = startDate.HasValue ?

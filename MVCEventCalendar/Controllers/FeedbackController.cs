@@ -11,12 +11,12 @@ namespace MVCEventCalendar.Controllers
         ClassroomAllocationSystemEntities entities = new ClassroomAllocationSystemEntities();
         // GET: Feedback
         Question question = new Question();
-        public ActionResult Index()
+        public ActionResult ViewFeedback()
         {
             ViewBag.AllQuestions = new SelectList(entities.Questions.ToList(), "Question1", "Question1");
-            var result = entities.GetFeedback().ToList();
-            ViewBag.Allfeedback = result;
-            return View();
+            var result = entities.Feedbacks;
+           // ViewBag.Allfeedback = result;
+            return View(result.ToList());
         }
     }
 }

@@ -255,6 +255,12 @@
     <Compile Include="getAllRooms_Result1.cs">
       <DependentUpon>CalenderModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetFeedbacks1_Result.cs">
+      <DependentUpon>CalenderModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetFeedbacks_Result.cs">
+      <DependentUpon>CalenderModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetFeedback_Result.cs">
       <DependentUpon>CalenderModel.tt</DependentUpon>
     </Compile>
@@ -296,7 +302,6 @@
     <Content Include="Views\Image\Image.cshtml" />
     <Content Include="Views\Image\List.cshtml" />
     <Content Include="Views\Resource\AddResources.cshtml" />
-    <Content Include="Views\Resource\Message.cshtml" />
     <Content Include="Views\Resource\Welcome.cshtml" />
     <Content Include="Views\User\UserLogin.cshtml" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
@@ -317,6 +322,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\AllRooms.cshtml" />
     <Content Include="Views\Admin\ShowReportToAdmin.cshtml" />
+    <Content Include="Views\Admin\AddResource.cshtml" />
+    <Content Include="Views\Admin\DeleteResources.cshtml" />
+    <Content Include="Views\Admin\List.cshtml" />
+    <Content Include="Views\Admin\Welcome.cshtml" />
+    <Content Include="Views\ClassroomDetails\DeleteClassRoomDetails.cshtml" />
+    <Content Include="Views\ClassroomDetails\List.cshtml" />
+    <Content Include="Views\Feedback\ViewFeedback.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

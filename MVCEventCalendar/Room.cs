@@ -12,17 +12,9 @@ namespace MVCEventCalendar
     using System;
     using System.Collections.Generic;
     
-    public partial class Event
+    public partial class Room
     {
-        public int EventID { get; set; }
-        public string Subject { get; set; }
-        public string Description { get; set; }
-        public System.DateTime Start { get; set; }
-        public System.DateTime End { get; set; }
-        public bool IsfullDay { get; set; }
-        public Nullable<int> ClassRoomId { get; set; }
-        public Nullable<int> Employeeid { get; set; }
-    
-        public virtual ClassRoom ClassRoom { get; set; }
+        public int roomid { get; set; }
+        public string name { get; set; }
     }
 }

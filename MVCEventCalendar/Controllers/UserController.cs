@@ -41,7 +41,7 @@ namespace MVCEventCalendar.Controllers
                               e.Description,
                               e.Start,
                               e.End,
-                              e.ThemeColor,
+                            
                               e.IsfullDay,
                               e.ClassRoomId,
                               c.ClassRoomName,
@@ -76,7 +76,7 @@ namespace MVCEventCalendar.Controllers
                         v.End = e.End;
                         v.Description = e.Description;
                         v.IsfullDay = e.IsfullDay;
-                        v.ThemeColor = e.ThemeColor;
+                       
                         v.ClassRoomId = e.ClassRoomId;
                         v.Employeeid = e.Employeeid;
                         dc.SaveChanges();
@@ -126,9 +126,17 @@ namespace MVCEventCalendar.Controllers
 
         public ActionResult AllRooms()
         {
-            ViewBag.AllQuestions = new SelectList(dc.Questions.ToList(), "Question1", "Question1");
-            
-            return View(dc.ClassRooms.ToList()); 
+            if (Session["EmployeeNumber"] != null)
+            {
+                ViewBag.AllQuestions = new SelectList(dc.Questions.ToList(), "Question1", "Question1");
+
+                return View(dc.ClassRooms.ToList());
+            }
+            else
+            {
+                return Content("<script language='javascript' type='text/javascript'>alert('Login');window.location = '/Home/Index';</script>");
+
+            }
         }
     }
 }

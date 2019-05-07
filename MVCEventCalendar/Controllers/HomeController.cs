@@ -33,7 +33,7 @@ namespace MVCEventCalendar.Controllers
             {
                 Session["Username"] = adminResult.Username;
                 Session["EmployeeNumber"] = adminResult.EmployeeNumber;
-                return RedirectToAction("Welcome", "Resource");
+                return RedirectToAction("Welcome", "Admin");
             }
             else
             {
@@ -179,6 +179,12 @@ namespace MVCEventCalendar.Controllers
         {
             Session.Abandon();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.AllQuestions = new SelectList(entities.Questions.ToList(), "Question1", "Question1");
+            return View();
         }
 
 

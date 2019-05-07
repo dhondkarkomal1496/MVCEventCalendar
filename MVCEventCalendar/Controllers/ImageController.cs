@@ -37,7 +37,7 @@ namespace MVCEventCalendar.Controllers
                         {
                             bytes = br.ReadBytes(file1.ContentLength);
                         }
-                        using (SqlConnection connection = new SqlConnection("server=VDI-NET-0007\\LOCAL;database=ClassroomAllocationSystem;trusted_connection=true"))
+                        using (SqlConnection connection = new SqlConnection("server=VDI-NET-0015\\LOCAL;database=ClassroomAllocationSystem;trusted_connection=true"))
                         {
                             connection.Open();
                             SqlCommand command = new SqlCommand("insert into ClassRooms(ClassRoomName,ClassroomImage) values(@name,@image)", connection);
@@ -45,7 +45,7 @@ namespace MVCEventCalendar.Controllers
                             command.Parameters.AddWithValue("@image", bytes);
                             command.ExecuteNonQuery();
                         }
-                            return Content("<script languagr='javascript' type='text/javascript'>alert('saved');windows.location='Index';</script>");
+                            return Content("<script languagr='javascript' type='text/javascript'>alert('Data added to the database successfully');windows.location='/Admin/Welcome';</script>");
                         
                     }
                 }
@@ -66,7 +66,7 @@ namespace MVCEventCalendar.Controllers
         }
         public ActionResult Delete()
         {
-        
+            ViewBag.AllQuestions = new SelectList(entities.Questions.ToList(), "Question1", "Question1");
             return PartialView("_DeleteClassroom", entities.ClassRooms);
         }
 
